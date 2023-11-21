@@ -1,0 +1,1 @@
+export const API_ENDPOINT = 'https://apieventosup-dev-tbsa.1.sg-1.fl0.io';

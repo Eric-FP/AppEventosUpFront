@@ -8,8 +8,7 @@ export default function BemVindo() {
     
     return (
         <View style={styles.container}>
-            <Image source={require("../Imagens/Logo.png")}>
-            </Image>
+            
             <View>
                 <Text style={styles.titulo}>Eventos UP</Text>
             </View>

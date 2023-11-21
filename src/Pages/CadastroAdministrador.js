@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native"
 import { useNavigation } from "@react-navigation/native"
+import { API_ENDPOINT} from "../config/index"
 
 export default function CadastroAdministrador(){
         const [nome, setNome] = useState();
@@ -9,7 +10,7 @@ export default function CadastroAdministrador(){
 
     const POST = async () => {
         console.log("Enviando dados para o servidor:", { nome, email, senha });
-        const URL = "https://localhost:7193/api/Administradores/addAdministrador/";
+        const URL = API_ENDPOINT+"/api/Administradores/addAdministrador/";
         const options = {
           method: "POST",
           headers: {
@@ -46,9 +47,7 @@ export default function CadastroAdministrador(){
 
     return(
         <View style={styles.container}>
-            <View style={styles.imagemView}>
-            <Image source={require("../Imagens/Logo.png")} style={styles.imagemView}></Image>
-            </View>
+            
             <View style={styles.titulo}>
                 <Text style={styles.textoTitulo}>Cadastro de Administrador</Text>
             </View>

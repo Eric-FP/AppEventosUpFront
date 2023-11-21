@@ -1,38 +1,75 @@
-import React from "react"
+import React, {useState} from "react"
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native"
 import { useNavigation } from "@react-navigation/native"
+import { API_ENDPOINT } from "../config";
 
 export default function Login() {
-
     const navigation = useNavigation();
+    const [email, setEmail] = useState();
+    const [senha, setSenha] = useState();
+    
+    const POST = async () => {
+        console.log("Enviando dados para o servidor:", { email, senha });
+        const URL = API_ENDPOINT+"/api/Administradores/GetAdministradorSenhaEmail?";
+        const options = {
+          method: "POST",
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            senha: senha
+          }),
+        };
+        console.log(options.body);
+        fetch(URL, options).then(
+            (response)=>{
+                if(!response.ok){
+                    console.log(response.body)
+                    throw new Error('A solicitação via POST falhou!')
+                }
+                return response.json();
+            }
+        ).then(
+            (dadosRecebidos) => {
+                console.log('Resposta do servidor: ', dadosRecebidos)
+            }
+        ).catch(
+            (error) => {
+                console.error(error)
+            }
+        )
+    };
 
     return (
         <View style={styles.container}>
-            <Image source={require("../Imagens/Logo.png")}>
-            </Image>
+            
             <View style={styles.titulo}>
                 <Text style={styles.textoTitulo}>Tela de Login</Text>
             </View>
             
-            <View style={styles.formulario}>
-                 <Text style={styles.label}>Email</Text>
-                 <TextInput
+                <Text style={styles.label}>E-mail</Text>
+                <TextInput
+                    style={styles.input}
                     placeholder="E-mail"
+                    value={email}
+                    onChangeText={(texto) => setEmail(texto)}
+                />
+                <Text style={styles.label}>Senha</Text>
+                <TextInput
                     style={styles.input}
-                 />
-                 <Text style={styles.label}>Senha</Text>
-                 <TextInput
                     placeholder="Senha"
-                    style={styles.input}
-                 />
+                    value={senha}
+                    onChangeText={(texto) => setSenha(texto)}
+                />
 
-                 <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Administrador')}>
+                 <TouchableOpacity style={styles.botao} onPress={POST}>
                     <Text style={styles.textoBotao}>Acessar</Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.botaoRegistrar} onPress={ () =>navigation.navigate('CadastroAdministrador')}>
                     <Text style={styles.textoBotaoRegistro}>Não possui uma conta? Cadastre-se</Text>
                  </TouchableOpacity>
-            </View>
         </View>
     )
 }

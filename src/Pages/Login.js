@@ -8,39 +8,24 @@ export default function Login() {
     const [email, setEmail] = useState();
     const [senha, setSenha] = useState();
     
-    const POST = async () => {
-        console.log("Enviando dados para o servidor:", { email, senha });
-        const URL = API_ENDPOINT+"/api/Administradores/GetAdministradorSenhaEmail?";
-        const options = {
-          method: "POST",
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            senha: senha
-          }),
-        };
-        console.log(options.body);
-        fetch(URL, options).then(
-            (response)=>{
-                if(!response.ok){
-                    console.log(response.body)
-                    throw new Error('A solicitação via POST falhou!')
-                }
-                return response.json();
-            }
-        ).then(
-            (dadosRecebidos) => {
-                console.log('Resposta do servidor: ', dadosRecebidos)
-            }
-        ).catch(
-            (error) => {
-                console.error(error)
-            }
-        )
-    };
+    const handleLogin = async () => {
+
+        try {
+          const response = await fetch(API_ENDPOINT+"/api/Administradores/GetAdministradorSenhaEmail?email="+email+"&senha="+senha);
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            console.log('Sucesso', 'Login bem-sucedido!', data);
+            navigation.navigate("Administrador");
+          } else {
+            
+            console.log('Erro', 'Credenciais inválidas. Tente novamente.');
+          }
+        } catch (error) {
+          console.error('Erro ao fazer login:', error);
+        }
+      };
 
     return (
         <View style={styles.container}>
@@ -64,10 +49,10 @@ export default function Login() {
                     onChangeText={(texto) => setSenha(texto)}
                 />
 
-                 <TouchableOpacity style={styles.botao} onPress={POST}>
+                 <TouchableOpacity style={styles.botao} onPress={handleLogin}>
                     <Text style={styles.textoBotao}>Acessar</Text>
                  </TouchableOpacity>
-                 <TouchableOpacity style={styles.botaoRegistrar} onPress={ () =>navigation.navigate('CadastroAdministrador')}>
+                 <TouchableOpacity style={styles.botaoRegistrar} onPress={() => navigation.navigate("CadastroAdministrador")}>
                     <Text style={styles.textoBotaoRegistro}>Não possui uma conta? Cadastre-se</Text>
                  </TouchableOpacity>
         </View>

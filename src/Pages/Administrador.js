@@ -1,17 +1,106 @@
-import React from "react"
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native"
+import React, {useContext, useState} from "react"
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, Button, Alert } from "react-native"
 import { useNavigation } from "@react-navigation/native"
+import { API_ENDPOINT } from "../config";
+import EditarCadastro from '../Pages/EditarCadastro'
 
 export default function VisualizarEvento() {
     const navigation = useNavigation();
-    return (
+    const [dados, setDados] = useState();
+    
+    const deleteUser = async (item) =>{
+        const URL = API_ENDPOINT+"/api/Administradores/"+item.idAdministrador;
+
+        const options = {
+            method: 'DELETE',
+            headers: {
+                Accept: '*/*',
+            }
+        }
+
+        fetch(URL, options)
+            .then(response => {
+                if(!response.ok){
+                    throw new Error('Erro na exclusão do usuário')
+                }
+                return response.json();
+            })
+            .then(responseData => {
+                console.log("Resposta da requisição: ", responseData)
+                Alert.alert(
+                    'Exclusão!',
+                    'Usuário excluído com sucesso!',
+                    [
+                        {
+                            text: 'Ok',
+                            onPress: () => {navigation.goBack()}
+                        }
+                    ]
+                )
+            })
+            .catch(error => {
+                console.error('Erro: ', error)
+            })
+    }
+
+    function deleteConfirm(item){
+        Alert.alert('Excluir usuário!', 'Tem certeza que deseja excluir o usuário?',
+        [
+            {
+                text: "Sim",
+                onPress(){
+                    
+                    deleteUser(item)
+                }
+            },
+            {
+                text: "Não"
+            }
+        ]
+        )
+    }
+    const GET = async () => {
         
+        try {
+          const response = await fetch(API_ENDPOINT+"/api/Administradores");
+          const data = await response.json();
+            
+          if (response.ok) {
+            console.log(data.idAdministrador);
+            setDados(data);
+          } else {
+            
+            console.log('Erro');
+          }
+        } catch (error) {
+          console.error('Erro: ', error);
+        }
+        
+    }
+
+    const renderItem = ({ item }) => (
+        <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: 'black', backgroundColor: '#FFF' }}>
+          <Text>Nome: {item.nome}</Text>
+          <Text>E-mail: {item.email}</Text>
+          <Button title="Editar"  />
+          <Button title="Excluir" onPress={() => {deleteConfirm(item.idAdministrador)}}/>    
+        </View>
+      );
+    
+    return (
         <View style={styles.container}>
             <View style={styles.informacoes}>
                 <Text style={styles.titulo}>Cadastro de Organizadores</Text>
             </View>
+            <View style={styles.lista}>
+                <FlatList
+                    data={dados}    
+                    renderItem={renderItem}
+                    keyExtractor={item => item.idAdministrador}
+                />
+            </View>
             <View style={styles.botoes}>
-            <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('AdmCadastrar')}>
+            <TouchableOpacity style={styles.botao} onPress={GET}>
                     <Text style={styles.textoBotao}>Cadastrar</Text>
             </TouchableOpacity>
             </View>
@@ -39,7 +128,7 @@ const styles = StyleSheet.create({
     botoes: {
         flex: 1,
         backgroundColor: '#0087D3',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
     },
     botao: {
         backgroundColor: '#0149B6',
@@ -51,6 +140,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: '5%',
         marginHorizontal: '10%',
+        position: 'absolute'
     },
     textoBotao: {
         color: '#FFF',
@@ -65,5 +155,9 @@ const styles = StyleSheet.create({
     textoBotaoRegistro: {
         fontSize: 16,
         color: '#a1a1a1'
+    },
+    lista: {
+        flex: 3,
+        backgroundColor: '#0087D3',
     }
 })

@@ -3,7 +3,6 @@ import BemVindo from '../Pages/BemVindo'
 import Login from '../Pages/Login'
 import Cadastro from '../Pages/Cadastro';
 import Administrador from '../Pages/Administrador';
-import AdmCadastrar from '../Pages/AdmCadastrar';
 import EventoCadastrar from '../Pages/EventoCadastrar';
 import Organizador from '../Pages/Organizador';
 import CadastroAdministrador from '../Pages/CadastroAdministrador';
@@ -31,11 +30,6 @@ export default function Routes() {
             <Stack.Screen
                 name='Administrador'
                 component={Administrador}
-                options={{ headerShown: false}}
-            />
-            <Stack.Screen
-                name='AdmCadastrar'
-                component={AdmCadastrar}
                 options={{ headerShown: false}}
             />
             <Stack.Screen

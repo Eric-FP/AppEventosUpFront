@@ -29,11 +29,14 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            
             <View style={styles.titulo}>
-                <Text style={styles.textoTitulo}>Tela de Login</Text>
+                <View>
+                    <Text style={styles.textoTitulo}>Tela de Login</Text>
+                </View>
+                <View style={styles.imagem}>
+                    <Image source={require('../Imagens/LogoPequena.png')}/>
+                </View>
             </View>
-            
                 <Text style={styles.label}>E-mail</Text>
                 <TextInput
                     style={styles.input}
@@ -65,14 +68,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#0087D3',
     },
     titulo: {
-        marginTop: '14%',
-        marginBottom: '8%',
-        paddingStart: '5%'
+        //marginTop: '14%',
+        marginBottom: '10%',
+        //paddingStart: '5%',
+        alignItems: 'center',
+        flexDirection: 'row',
+        //justifyContent: 'center',
+        
     },
     textoTitulo: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#FFF'
+        color: '#FFF',
+        paddingTop: '5%',
+        marginLeft: 20
+        
     },
     formulario: {
         backgroundColor: '#0087D3',
@@ -83,7 +93,7 @@ const styles = StyleSheet.create({
     label: {
         paddingStart: '2%',
         fontSize: 20,
-        marginTop: 28,
+        marginTop: 20,
     },
     input: {
         paddingStart: '5%',
@@ -115,5 +125,9 @@ const styles = StyleSheet.create({
     textoBotaoRegistro: {
         fontSize: 16,
         color: '#a1a1a1'
+    },
+    imagem: {
+        marginLeft: '30%',
+        paddingTop: '5%',
     }
 })

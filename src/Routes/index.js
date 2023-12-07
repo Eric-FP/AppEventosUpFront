@@ -6,6 +6,7 @@ import Administrador from '../Pages/Administrador';
 import EventoCadastrar from '../Pages/EventoCadastrar';
 import Organizador from '../Pages/Organizador';
 import CadastroAdministrador from '../Pages/CadastroAdministrador';
+import EditarCadastro from '../Pages/EditarCadastro';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,11 @@ export default function Routes() {
             <Stack.Screen
                 name='CadastroAdministrador'
                 component={CadastroAdministrador}
+                options={{ headerShown: false}}
+            />
+            <Stack.Screen
+                name='EditarCadastro'
+                component={EditarCadastro}
                 options={{ headerShown: false}}
             />
         </Stack.Navigator>

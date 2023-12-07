@@ -9,6 +9,7 @@ export default function BemVindo() {
         <View style={styles.container}>
             
             <View>
+                <Image source={require('../Imagens/Logo.png')}/>
                 <Text style={styles.titulo}>Eventos UP</Text>
             </View>
             <View>
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         color: '#FFFFFF',
-        marginTop: '50%'
+        marginTop: '10%'
     },
     textoGrande: {
         fontSize: 22,
